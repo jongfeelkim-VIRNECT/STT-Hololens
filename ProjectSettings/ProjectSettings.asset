@@ -634,11 +634,11 @@ PlayerSettings:
       GazeInput: False
       HumanInterfaceDevice: False
       InputInjectionBrokered: False
-      InternetClient: False
-      InternetClientServer: False
+      InternetClient: True
+      InternetClientServer: True
       Location: False
       LowLevelDevices: False
-      Microphone: False
+      Microphone: True
       MusicLibrary: False
       Objects3D: False
       OfflineMapsManagement: False
