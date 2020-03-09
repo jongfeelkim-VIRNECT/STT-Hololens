@@ -1,6 +1,12 @@
 # STT-Hololens
 
-Unity translation app using Google Cloud Speech-to-Text on Hololens
+Unity translation app using Google Cloud
+
+- Speech-to-Text: get result text
+- Translate text: get translated english text
+- Text-to-Speech: get english sound file
+
+on Hololens
 
 ## Developement environment
 
@@ -37,3 +43,9 @@ Unity translation app using Google Cloud Speech-to-Text on Hololens
   - Solution platforms: x86
   - Build to target: Device(hololens)
 - Click Deivce(Debug run) button
+
+## Reference Google Cloud APIs
+
+- https://cloud.google.com/speech-to-text/docs
+- https://cloud.google.com/translate/docs
+- https://cloud.google.com/text-to-speech/docs
