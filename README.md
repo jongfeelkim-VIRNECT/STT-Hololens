@@ -24,6 +24,7 @@ Unity translation app using Google Cloud Speech-to-Text on Hololens
 - Open Unity project scene from Assets/Scenes/STT_Hololens.scene
 - Open Build Settigs popup `Ctrl+Shift+B` or `File > BuildSettings...`
 - Checkout build options
+  - ![UnityBuildSettings.png](UnityBuildSettings.png)
 - Click `Build` button
 - Select exist folder to UWP project target.
 
@@ -31,7 +32,8 @@ Unity translation app using Google Cloud Speech-to-Text on Hololens
 
 - Open Visual Studio Solution file from <`BuildFromUnityFolder`>/STT-Hololens.sln
 - Checkout build options
+  - ![VisualStudioBuildSettings.png](VisualStudioBuildSettings.png)
   - Solution configurations: Release or Master
   - Solution platforms: x86
   - Build to target: Device(hololens)
-- Click Run button
+- Click Deivce(Debug run) button
