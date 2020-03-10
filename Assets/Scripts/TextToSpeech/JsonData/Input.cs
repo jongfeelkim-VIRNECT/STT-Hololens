@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.JsonData.TextToSpeech
+namespace Assets.Scripts.TextToSpeech.JsonData
 {
     [Serializable]
-    class Voice
+    class Input
     {
-        public string languageCode;
-        public string ssmlGender;
+        public string text;
     }
 }
