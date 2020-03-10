@@ -16,13 +16,10 @@ public class MicrophoneController : MonoBehaviour
     public StringEvent OnRecognizeSpeechProcessing;
     public StringEvent OnRecognizeSpeechFail;
 
-    public string APIKey { set; get; }
-
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        Debug.Log(APIKey);
         StartToSpeech();
     }
 
@@ -78,31 +75,11 @@ public class MicrophoneController : MonoBehaviour
                 audioSource.volume = 1.0f;
                 audioSource.Stop();
 
+                OnRecognizeSpeechProcessing?.Invoke("Processing Google.Speech.API...");
+
                 string wavFilePath = Path.Combine(Application.persistentDataPath, "Recorded.wav");
-                string base64decoded = GetBase64DecodeFromWavFile(wavFilePath);
+                string base64decoded = GoogleAPIHelper.GetBase64DecodeFromWavFile(wavFilePath);
             }
         }        
-    }
-
-    private string GetBase64DecodeFromWavFile(string wavFilePath)
-    {
-        OnRecognizeSpeechProcessing?.Invoke("Processing Google.Speech.API...");
-
-        byte[] wavByteArray = File.ReadAllBytes(wavFilePath);
-
-        // Remove empty space, decoded string "A"
-        string contents = Convert.ToBase64String(wavByteArray);
-        int lastIndex = 0;
-        for (int i = contents.Length - 1; i != 0; i--)
-        {
-            if (contents[i] != 'A')
-            {
-                lastIndex = i + 1;    // Prevent remove last index string
-                break;
-            }
-        }
-        string removedEmptyContents = contents.Substring(0, lastIndex);
-        //File.WriteAllText(Path.Combine(Application.persistentDataPath, "Base64Decoded.txt"), removedEmptyContents);
-        return removedEmptyContents;
     }
 }
