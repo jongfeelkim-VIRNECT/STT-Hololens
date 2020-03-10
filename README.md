@@ -25,6 +25,13 @@ on Hololens
 
 - Hololens OS build 10.0.17763.1039
 
+## Preference setup
+
+- Create `APIKey.txt` file.
+- Copy google api key string to file in edit mode
+- Windows Store Apps point of reference doc
+  - https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html
+
 ## Build UWP project in Unity
 
 - Open Unity project scene from Assets/Scenes/STT_Hololens.scene
