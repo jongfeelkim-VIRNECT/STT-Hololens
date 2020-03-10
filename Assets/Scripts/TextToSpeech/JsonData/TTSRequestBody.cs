@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts.JsonData.TextToSpeech
+namespace Assets.Scripts.TextToSpeech.JsonData
 {
     [Serializable]
     class TTSRequestBody

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.JsonData.TextToSpeech
+namespace Assets.Scripts.TextToSpeech.JsonData
 {
     [Serializable]
-    class AudioConfig
+    class AudioContent
     {
-        public string audioEncoding;
+        public string audioContent;
     }
 }
