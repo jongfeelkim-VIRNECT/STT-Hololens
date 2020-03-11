@@ -7,10 +7,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Input = Assets.Scripts.TextToSpeech.JsonData.Input;
 
-namespace Scripts.TextToSpeech
+namespace Scripts.Translate
 {
     [RequireComponent(typeof(AudioSource))]
-    public class TextToSpeech : MonoBehaviour
+    public class Translate : MonoBehaviour
     {
         public string SourceText { set; get; }
         public string APIKey { set; get; }

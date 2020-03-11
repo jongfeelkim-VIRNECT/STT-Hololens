@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.TextToSpeech.JsonData
 {
     [Serializable]
-    class AudioContent
+    class TTSResponseBody
     {
         public string audioContent;
     }
