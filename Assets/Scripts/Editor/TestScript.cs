@@ -10,19 +10,45 @@ namespace Tests
     public class TestScript
     {
         private static string API_KEY = "REPLACE_YOUR_GOOGLE_API_KEY";
+        private static string ACCESS_TOKEN = "REPLACE_YOUR_ACCESS_TOKEN";
         [UnityTest]
         public IEnumerator APIKey()
         {
             bool IsAsserted = false;
 
             GameObject go1 = new GameObject();
-            APIKeyLoader loader = go1.AddComponent<APIKeyLoader>();
+            KeyLoader loader = go1.AddComponent<KeyLoader>();
+            loader.FileName = "APIKey.txt";
             loader.runInEditMode = true;
-            loader.APIKeyLoaded = new StringEvent();
-            loader.APIKeyLoaded.AddListener(apikey =>
+            loader.KeyLoaded = new StringEvent();
+            loader.KeyLoaded.AddListener(apikey =>
             {
                 Assert.AreNotEqual(apikey, API_KEY);
                 API_KEY = apikey;
+                IsAsserted = true;
+            });
+
+            // Wait for Assert result.
+            while (!IsAsserted)
+            {
+                yield return null;
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator AccessToken()
+        {
+            bool IsAsserted = false;
+
+            GameObject go1 = new GameObject();
+            KeyLoader loader = go1.AddComponent<KeyLoader>();
+            loader.FileName = "AccessToken.txt";
+            loader.runInEditMode = true;
+            loader.KeyLoaded = new StringEvent();
+            loader.KeyLoaded.AddListener(accessToken =>
+            {
+                Assert.AreNotEqual(accessToken, ACCESS_TOKEN);
+                ACCESS_TOKEN = accessToken;
                 IsAsserted = true;
             });
 
