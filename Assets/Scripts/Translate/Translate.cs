@@ -1,52 +1,52 @@
-﻿using Assets.Scripts.TextToSpeech.JsonData;
+﻿using Assets.Scripts.Translate.JsonData;
 using System;
 using System.Collections;
-using System.IO;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using Input = Assets.Scripts.TextToSpeech.JsonData.Input;
 
-namespace Scripts.Translate
+namespace Assets.Scripts.Translate
 {
-    [RequireComponent(typeof(AudioSource))]
     public class Translate : MonoBehaviour
     {
         public string SourceText { set; get; }
-        public string APIKey { set; get; }
+        public string SourceLanguageCode = "ko";
+        public string TargetLanguageCode = "en";
+        public string AccessToken { set; get; }
 
-        public AudioSource audioSource { private set; get; }
+        public StringEvent OnTranslatedTextReceived;
 
-        // Start is called before the first frame update
-        void Start() => audioSource = GetComponent<AudioSource>();
-
-        public void StartTextToSpeech()
+        public void StartTranslate()
         {
-            StartCoroutine(GoogleTextToSpeech(SourceText, audioContent =>
+            StartCoroutine(GoogleTranslate(SourceText, AccessToken, translatedText =>
             {
-                string savedWavFilePath = SaveToWavFile(audioContent);
-                StartCoroutine(GetAudioClip(savedWavFilePath));
+                OnTranslatedTextReceived?.Invoke(translatedText);
+                //string savedWavFilePath = SaveToWavFile(audioContent);
+                //StartCoroutine(GetAudioClip(savedWavFilePath));
             }));
         }
 
-        IEnumerator GoogleTextToSpeech(string sourceText, Action<string> callbackContent)
+        IEnumerator GoogleTranslate(string sourceText, string accessToken, Action<string> callbackText)
         {
             // Create json object
-            TTSRequestBody tts = new TTSRequestBody()
+            TranslateRequestBody translate = new TranslateRequestBody()
             {
-                input = new Input() { text = sourceText },
-                voice = new Voice() { languageCode = "en-US", ssmlGender = "FEMALE" },
-                audioConfig = new AudioConfig() { audioEncoding = "LINEAR16" }
+                contents = new List<string>() { sourceText },
+                mimeType = "text/plain",
+                sourceLanguageCode = SourceLanguageCode,
+                targetLanguageCode = TargetLanguageCode
             };
 
-            string requestBody = JsonUtility.ToJson(tts);
-            Debug.Log("[TextToSpeech] request body json: " + requestBody);
+            string requestBody = JsonUtility.ToJson(translate);
+            Debug.Log("[Translate] request body json: " + requestBody);
 
-            string requestUri = $"https://texttospeech.googleapis.com/v1beta1/text:synthesize?key={APIKey}";
-            //Debug.Log("[TextToSpeech] request uri: " + requestUri);
+            string requestUri = "https://translation.googleapis.com/v3/projects/stt-hololens:translateText";
+            //Debug.Log("[Translate] request uri: " + requestUri);
 
             using (UnityWebRequest uwr = UnityWebRequest.Post(requestUri, ""))
             {
+                uwr.SetRequestHeader("Authorization", "Bearer " + accessToken);
                 uwr.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(requestBody));
                 yield return uwr.SendWebRequest();
 
@@ -57,38 +57,10 @@ namespace Scripts.Translate
                 else
                 {
                     string responseBody = uwr.downloadHandler.text;
-                    Debug.Log("[TextToSpeech] response body json: " + responseBody);
+                    Debug.Log("[Translate] response body json: " + responseBody);
 
-                    TTSResponseBody ac = JsonUtility.FromJson<TTSResponseBody>(responseBody);
-                    callbackContent?.Invoke(ac.audioContent);
-                }
-            }
-        }
-
-        private string SaveToWavFile(string contents)
-        {
-            byte[] contentsByte = Convert.FromBase64String(contents);
-            string savedWavFilePath = Path.Combine(Application.persistentDataPath, "TextToSpeech.wav");
-            using (FileStream fs = File.Create(savedWavFilePath))
-            {
-                fs.Write(contentsByte, 0, contentsByte.Length);
-            }
-            return savedWavFilePath;
-        }
-
-        IEnumerator GetAudioClip(string savedWavFilePath)
-        {
-            using (UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(savedWavFilePath, AudioType.WAV))
-            {
-                yield return uwr.SendWebRequest();
-
-                if (uwr.isNetworkError)
-                {
-                    Debug.Log(uwr.error);
-                }
-                else
-                {
-                    audioSource.clip = DownloadHandlerAudioClip.GetContent(uwr);
+                    TranslateResponseBody ac = JsonUtility.FromJson<TranslateResponseBody>(responseBody);
+                    callbackText?.Invoke(ac.translations[0].translatedText);
                 }
             }
         }

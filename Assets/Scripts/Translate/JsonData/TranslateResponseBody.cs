@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Scripts.Translate.JsonData
+namespace Assets.Scripts.Translate.JsonData
 {
     [Serializable]
     class TranslateResponseBody
