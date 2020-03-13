@@ -224,10 +224,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FileName: APIKey.txt
-  KeyLoaded:
+  ContentsLoaded:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 704342319}
+      - m_Target: {fileID: 1595542855}
         m_MethodName: set_APIKey
         m_Mode: 0
         m_Arguments:
@@ -238,7 +238,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1595542855}
+      - m_Target: {fileID: 704342319}
         m_MethodName: set_APIKey
         m_Mode: 0
         m_Arguments:
@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FileName: RefreshTokenParameters.json
-  KeyLoaded:
+  ContentsLoaded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1021289988

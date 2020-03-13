@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Diagnostics;
+using Assets.Scripts.OAuth2RefreshToken;
 using Assets.Scripts.SpeechToText;
 using Assets.Scripts.Translate;
 using NUnit.Framework;
@@ -15,25 +17,17 @@ namespace Tests
         private static string API_KEY = "REPLACE_YOUR_GOOGLE_API_KEY";
         private static string ACCESS_TOKEN = "REPLACE_YOUR_ACCESS_TOKEN";
 
-        [Test]
-        public void T0_RefreshAccessToken()
-        {
-            // https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/22
-
-
-        }
-
         [UnityTest]
         public IEnumerator T1_APIKey()
         {
             bool IsAsserted = false;
 
             GameObject go1 = new GameObject();
-            KeyLoader loader = go1.AddComponent<KeyLoader>();
+            FileLoader loader = go1.AddComponent<FileLoader>();
             loader.FileName = "APIKey.txt";
             loader.runInEditMode = true;
-            loader.KeyLoaded = new StringEvent();
-            loader.KeyLoaded.AddListener(apikey =>
+            loader.ContentsLoaded = new StringEvent();
+            loader.ContentsLoaded.AddListener(apikey =>
             {
                 Assert.AreNotEqual(apikey, API_KEY);
                 API_KEY = apikey;
@@ -53,16 +47,33 @@ namespace Tests
             bool IsAsserted = false;
 
             GameObject go2 = new GameObject();
-            KeyLoader loader = go2.AddComponent<KeyLoader>();
-            loader.FileName = "AccessToken.txt";
+            FileLoader loader = go2.AddComponent<FileLoader>();
             loader.runInEditMode = true;
-            loader.KeyLoaded = new StringEvent();
-            loader.KeyLoaded.AddListener(accessToken =>
+            loader.FileName = "RefreshTokenParameters.json";
+            loader.ContentsLoaded = new StringEvent();
+            loader.ContentsLoaded.AddListener(contents => 
             {
-                Assert.AreNotEqual(accessToken, ACCESS_TOKEN);
-                ACCESS_TOKEN = accessToken;
                 IsAsserted = true;
             });
+
+            // load RefreshTokenParameters.json
+            while (!IsAsserted)
+            {
+                yield return null;
+            }
+
+            // Init
+            IsAsserted = false;
+            RefreshToken refreshToken = go2.AddComponent<RefreshToken>();
+            refreshToken.runInEditMode = true;
+            refreshToken.OnNewAccessTokenReceived = new StringEvent();
+            refreshToken.OnNewAccessTokenReceived.AddListener(newAccessToken =>
+            {
+                Assert.AreNotEqual(newAccessToken, ACCESS_TOKEN);
+                ACCESS_TOKEN = newAccessToken;
+                IsAsserted = true;
+            });
+            refreshToken.StartRefereshToken();
 
             // Wait for Assert result.
             while (!IsAsserted)
@@ -77,6 +88,7 @@ namespace Tests
             if (API_KEY.Equals("REPLACE_YOUR_GOOGLE_API_KEY"))
             {
                 Debug.LogWarning("Dependency of T1_APIKey()");
+                Assert.IsTrue(false);
                 yield return null;
             }
             else
@@ -110,6 +122,7 @@ namespace Tests
             if (ACCESS_TOKEN.Equals("REPLACE_YOUR_ACCESS_TOKEN"))
             {
                 Debug.LogWarning("Dependency of T2_AccessToken()");
+                Assert.IsTrue(false);
                 yield return null;
             }
             else
@@ -125,7 +138,7 @@ namespace Tests
                 tts.OnTranslatedTextReceived = new StringEvent();
                 tts.OnTranslatedTextReceived.AddListener(translatedText =>
                 {
-                    Assert.IsTrue(translatedText.Contains("Unity"));
+                    Assert.IsTrue(translatedText.Contains("Make your vision a reality right now with Unity's real-time 3D development platform."));
                     IsAsserted = true;
                 });
 
@@ -143,6 +156,7 @@ namespace Tests
             if (API_KEY.Equals("REPLACE_YOUR_GOOGLE_API_KEY"))
             {
                 Debug.LogWarning("Dependency of T1_APIKey()");
+                Assert.IsTrue(false);
                 yield return null;
             }
             else

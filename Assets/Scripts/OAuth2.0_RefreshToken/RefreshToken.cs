@@ -9,18 +9,18 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.OAuth2RefreshToken
 {
-    [RequireComponent(typeof(KeyLoader))]
+    [RequireComponent(typeof(FileLoader))]
     public class RefreshToken : MonoBehaviour
     {
         public StringEvent OnNewAccessTokenReceived;
 
         private RefreshTokenResponseBody lastReceivedBody;
-        private KeyLoader keyLoader;
-
-        void Start() { keyLoader = GetComponent<KeyLoader>(); StartRefereshToken(); }
+        private FileLoader keyLoader;
 
         public void StartRefereshToken()
         {
+            keyLoader = GetComponent<FileLoader>();
+
             // check first request or expire date
             if (lastReceivedBody?.ExpiresDate > DateTime.Now)
             {
@@ -28,7 +28,7 @@ namespace Assets.Scripts.OAuth2RefreshToken
             }
             else
             {
-                RefreshTokenParameters rtp = JsonUtility.FromJson<RefreshTokenParameters>(keyLoader.StoredKey);
+                RefreshTokenParameters rtp = JsonUtility.FromJson<RefreshTokenParameters>(keyLoader.StoredContents);
                 IDictionary<string, string> parameters = new Dictionary<string, string>
                 {
                     ["client_id"] = rtp.client_id,
