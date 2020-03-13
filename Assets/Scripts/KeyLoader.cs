@@ -7,6 +7,7 @@ public class KeyLoader : MonoBehaviour
 {
     public string FileName = "APIKey.txt";
     public StringEvent KeyLoaded;
+    public string StoredKey { private set; get; }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class KeyLoader : MonoBehaviour
             Debug.LogError("Please open this file and replace your google api key");
             Debug.LogWarning(keyPath);
         }
+        StoredKey = key;
         KeyLoaded?.Invoke(key);
     }
 }
