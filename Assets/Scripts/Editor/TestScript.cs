@@ -16,23 +16,11 @@ namespace Tests
         private static string ACCESS_TOKEN = "REPLACE_YOUR_ACCESS_TOKEN";
 
         [Test]
-        public void T0_GOOGLE_APPLICATION_CREDENTIALS()
+        public void T0_RefreshAccessToken()
         {
-            // json file download from Google Cloud Platform > APIs & Services > Credentials > OAuth2.0 > Client ID for Web application
-            // https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/15
+            // https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/22
 
-            Process process = new Process();
-            process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.Arguments = "/c set GOOGLE_APPLICATION_CREDENTIALS=STT-Hololens-413c52befa79.json";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
 
-            string output = process.StandardOutput.ReadToEnd();
-            Debug.Log(output);
-            
-            Assert.IsTrue(string.IsNullOrEmpty(output));
         }
 
         [UnityTest]
