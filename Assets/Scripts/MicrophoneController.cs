@@ -13,8 +13,9 @@ public class MicrophoneController : MonoBehaviour
     private AudioSource audioSource;
     private string microphoneDevice;
 
-    public StringEvent OnRecognizeSpeechProcessing;
-    public StringEvent OnRecognizeSpeechFail;
+    //public StringEvent OnRecordSpeechProcessing;
+    //public StringEvent OnRecordSpeechFinished;
+    public StringEvent OnRecordSpeechFinished;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,8 @@ public class MicrophoneController : MonoBehaviour
 
     public void StartToSpeech()
     {
+        //OnRecordSpeechProcessing?.Invoke("OnRecordSpeechProcessing");
+
         foreach (string microphoneDevice in Microphone.devices)
         {
             Debug.Log($"Detected microphone deivce: {microphoneDevice}");
@@ -75,10 +78,12 @@ public class MicrophoneController : MonoBehaviour
                 audioSource.volume = 1.0f;
                 audioSource.Stop();
 
-                OnRecognizeSpeechProcessing?.Invoke("Processing Google.Speech.API...");
+                //OnRecordSpeechFinished?.Invoke("OnRecordSpeechFinished");
 
                 string wavFilePath = Path.Combine(Application.persistentDataPath, "Recorded.wav");
                 string base64decoded = GoogleAPIHelper.GetBase64DecodeFromWavFile(wavFilePath);
+
+                OnRecordSpeechFinished?.Invoke(base64decoded);
             }
         }        
     }

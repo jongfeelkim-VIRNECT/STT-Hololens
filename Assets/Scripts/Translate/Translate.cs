@@ -22,8 +22,6 @@ namespace Assets.Scripts.Translate
             StartCoroutine(GoogleTranslate(SourceText, AccessToken, translatedText =>
             {
                 OnTranslatedTextReceived?.Invoke(translatedText);
-                //string savedWavFilePath = SaveToWavFile(audioContent);
-                //StartCoroutine(GetAudioClip(savedWavFilePath));
             }));
         }
 
@@ -52,7 +50,7 @@ namespace Assets.Scripts.Translate
 
                 if (uwr.isNetworkError)
                 {
-                    Debug.Log(uwr.error);
+                    Debug.LogError(uwr.error);
                 }
                 else
                 {
