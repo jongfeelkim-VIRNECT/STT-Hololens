@@ -25,7 +25,10 @@ namespace Scripts.TextToSpeech
             StartCoroutine(GoogleTextToSpeech(SourceText, audioContent =>
             {
                 string savedWavFilePath = SaveToWavFile(audioContent);
-                StartCoroutine(GetAudioClip(savedWavFilePath));
+                StartCoroutine(GetAudioClip(savedWavFilePath, audioSource => 
+                {
+                    audioSource.Play();
+                }));
             }));
         }
 
@@ -76,7 +79,7 @@ namespace Scripts.TextToSpeech
             return savedWavFilePath;
         }
 
-        IEnumerator GetAudioClip(string savedWavFilePath)
+        IEnumerator GetAudioClip(string savedWavFilePath, Action<AudioSource> callbackAudioSource)
         {
             using (UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(savedWavFilePath, AudioType.WAV))
             {
@@ -89,6 +92,7 @@ namespace Scripts.TextToSpeech
                 else
                 {
                     audioSource.clip = DownloadHandlerAudioClip.GetContent(uwr);
+                    callbackAudioSource?.Invoke(audioSource);
                 }
             }
         }

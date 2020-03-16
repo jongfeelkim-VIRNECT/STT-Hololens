@@ -46,7 +46,7 @@ public static class SavWav
         Debug.Log(filepath);
 
         // Make sure directory exists if user is saving to sub dir.
-        Directory.CreateDirectory(Path.GetDirectoryName(filepath));
+        //Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 
         using (var fileStream = CreateEmpty(filepath))
         {

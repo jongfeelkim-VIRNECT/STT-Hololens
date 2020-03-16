@@ -176,7 +176,6 @@ namespace Tests
                 }
 
                 // You can hear tts.SourceText voice while audioSource.isPlaying
-                audioSource.Play();
                 while (audioSource.isPlaying)
                 {
                     yield return null;

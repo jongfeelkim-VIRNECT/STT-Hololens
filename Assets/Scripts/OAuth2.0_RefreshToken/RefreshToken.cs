@@ -12,10 +12,19 @@ namespace Assets.Scripts.OAuth2RefreshToken
     [RequireComponent(typeof(FileLoader))]
     public class RefreshToken : MonoBehaviour
     {
+        public bool IsRefreshOnStart = true;
         public StringEvent OnNewAccessTokenReceived;
 
         private RefreshTokenResponseBody lastReceivedBody;
         private FileLoader keyLoader;
+
+        void Start()
+        {
+            if (IsRefreshOnStart)
+            {
+                StartRefereshToken();
+            }
+        }
 
         public void StartRefereshToken()
         {
