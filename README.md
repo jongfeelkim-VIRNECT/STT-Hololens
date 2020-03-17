@@ -4,18 +4,23 @@ Unity translation app using Google Cloud
 
 - Speech-to-Text: get result text
 - Translate text: get translated english text
-- Text-to-Speech: get english sound file
+- Text-to-Speech: get english speech
 
 on Hololens
+
+## Demo video
+
+[![STT-Hololens](https://img.youtube.com/vi/J0dCy6myWnc/0.jpg)](https://www.youtube.com/watch?v=J0dCy6myWnc "HoloLens Speech to Text, Tranlate, Text to Speech")
 
 ## Developement environment
 
 ### Tools
 
-- Unity 2019.3.4f1
+- Unity 2019.3.5f1
   - Add modules `Universal Windows Platform Build Support`, 2.1GB
   - Pacakges
     - Windows Mixed Reality 4.2.1
+    - [Microsoft Mixed Reality Toolkit v2.3.0](https://github.com/Microsoft/MixedRealityToolkit-Unity/releases)
 - Visual Studio Community 2019 16.4.5
   - Add workloads `Game development with Unity` (Unity)
   - Add workloads `Desktop development with C++` (UWP)
@@ -27,10 +32,40 @@ on Hololens
 
 ## Preference setup
 
-- Create `APIKey.txt` file.
-- Copy google api key string to file in edit mode
-- Windows Store Apps point of reference doc
-  - https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html
+### Locate file directory
+
+- Unity app can read/write directory is `Application.persistentDataPath`
+- https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html
+  - Unity Editor: %AppData%/LocalLow/\<CompanyName>/\<AppName>
+  - Hololens: User Folders/LocalAppData/\<AppName>/LocalState
+    - You can't see directory in Explorer, Connect to `Device Portal` and Menu > System > File explorer
+
+### API key
+
+- Create `APIKey.txt` file for Text to Speech and Speech to Text
+- Copy google api key string to file and paste it to in text editor
+
+### Access token
+
+#### Get refresh token first
+
+- To get access token, you can use OAuth2.0 request to google auth server.
+- Reference issue: [OAuth2.0 obtaining access tokens](https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/22)
+- Get access token and refresh token.
+
+#### Create RefreshTokenParameters.json
+
+- Create `RefreshTokenParameters.json` file for translate
+- Copy below json text and replace your appropriate values.
+
+``` json
+{
+    "client_id" : "<YourClientID>",
+    "client_secret" : "<YourClientSecret>",
+    "grant_type" : "refresh_token",
+    "refresh_token" : "<YourRefreshToken>"
+}
+```
 
 ## Build UWP project in Unity
 
