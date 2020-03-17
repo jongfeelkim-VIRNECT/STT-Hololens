@@ -10,7 +10,7 @@ on Hololens
 
 ## Demo video
 
-[![STT-Hololens](https://img.youtube.com/vi/J0dCy6myWnc/0.jpg)](https://www.youtube.com/watch?v=J0dCy6myWnc "HoloLens Speech to Text, Tranlate, Text to Speech")
+[![STT-Hololens](https://img.youtube.com/vi/i8JYddLN47I/0.jpg)](https://www.youtube.com/watch?v=i8JYddLN47I "HoloLens Speech to Text, Tranlate, Text to Speech")
 
 ## Developement environment
 
