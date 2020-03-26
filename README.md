@@ -63,11 +63,11 @@ on Hololens
 #### Get refresh token first
 
 - To get access token, you can use OAuth2.0 request to google auth server.
-  - Request to https://accounts.google.com/o/oauth2/v2/auth
+  - Request to [https://accounts.google.com/o/oauth2/v2/auth](https://accounts.google.com/o/oauth2/v2/auth)
   - Reference issue: [OAuth2.0 obtaining access tokens](https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/22)
 - Google login -> move to redirectURL -> get code value from GET method parameter
 - Exchange authorization code for refresh and access tokens
-  - Request to https://oauth2.googleapis.com/token
+  - Request to [https://oauth2.googleapis.com/token](https://oauth2.googleapis.com/token)
 - Finally, you get access token and refresh token.
 
 #### Create RefreshTokenParameters.json
