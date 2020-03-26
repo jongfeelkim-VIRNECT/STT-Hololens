@@ -32,13 +32,26 @@ on Hololens
 
 ## Preference setup
 
+### Google Cloud Platform account
+
+- Sign in google cloud platform
+- Create project
+  - Any name you want.
+- APIs & Services > Credentials > API Keys
+  - Create API Key
+- APIs & Services > Credentials > OAuth Client ID
+  - Create Client ID
+- All credentials create is done. You can see credentials page like this.
+![GCP_Credentials.png](GCP_Credentials.png)
+
 ### Locate file directory
 
 - Unity app can read/write directory is `Application.persistentDataPath`
-- https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html
+- [https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html](https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html)
   - Unity Editor: %AppData%/LocalLow/\<CompanyName>/\<AppName>
   - Hololens: User Folders/LocalAppData/\<AppName>/LocalState
     - You can't see directory in Explorer, Connect to `Device Portal` and Menu > System > File explorer
+    - ![DevicePortal_FileExplorer.png](DevicePortal_FileExplorer.png)
 
 ### API key
 
@@ -50,8 +63,12 @@ on Hololens
 #### Get refresh token first
 
 - To get access token, you can use OAuth2.0 request to google auth server.
-- Reference issue: [OAuth2.0 obtaining access tokens](https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/22)
-- Get access token and refresh token.
+  - Request to [https://accounts.google.com/o/oauth2/v2/auth](https://accounts.google.com/o/oauth2/v2/auth)
+  - Reference issue: [OAuth2.0 obtaining access tokens](https://github.com/jongfeelkim-VIRNECT/STT-Hololens/issues/22)
+- Google login -> move to redirectURL -> get code value from GET method parameter
+- Exchange authorization code for refresh and access tokens
+  - Request to [https://oauth2.googleapis.com/token](https://oauth2.googleapis.com/token)
+- Finally, you get access token and refresh token.
 
 #### Create RefreshTokenParameters.json
 
@@ -88,6 +105,6 @@ on Hololens
 
 ## Reference Google Cloud APIs
 
-- https://cloud.google.com/speech-to-text/docs
-- https://cloud.google.com/translate/docs
-- https://cloud.google.com/text-to-speech/docs
+- [https://cloud.google.com/speech-to-text/docs](https://cloud.google.com/speech-to-text/docs)
+- [https://cloud.google.com/translate/docs](https://cloud.google.com/translate/docs)
+- [https://cloud.google.com/text-to-speech/docs](https://cloud.google.com/translate/docs)
